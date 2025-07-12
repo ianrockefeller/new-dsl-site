@@ -1,0 +1,1813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droid Speak Labs | AI Automation for Ambitious SMBs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --accent-primary: #00ff88;
+            --accent-secondary: #00aaff;
+            --accent-gradient: linear-gradient(135deg, #00ff88 0%, #00aaff 100%);
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --border: #222222;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.1s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Noise Texture Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgbnVtT2N0YXZlcz0iMTAiLz48ZmVDb2xvck1hdHJpeCB2YWx1ZXM9IjAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDAgMCAwIDEgMCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIvPjwvc3ZnPg==');
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: var(--accent-gradient);
+            padding: 0.75rem 2rem;
+            border-radius: 100px;
+            color: var(--bg-primary);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .nav-cta:hover::before {
+            width: 300px;
+            height: 300px;
+        }        
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+            padding-top: 10rem;
+            padding-bottom: 5rem;
+            background: linear-gradient(to bottom, #0a0a0a 0%, #001a0a 50%, #0a0a0a 100%);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            perspective: 1000px;
+        }        
+        
+        /* 3D Grid Tunnel Effect */
+        .grid-tunnel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+        }
+
+        .tunnel-face {
+            position: absolute;
+            background: 
+                linear-gradient(rgba(0, 255, 136, 0.6) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.6) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: tunnel-flow 20s linear infinite;
+        }
+
+        /* Floor */
+        .tunnel-floor {
+            bottom: 0;
+            left: 50%;
+            width: 225%;
+            height: 100%;
+            transform: translateX(-50%) rotateX(90deg) translateZ(-40vh);
+            transform-origin: center bottom;
+        }
+
+        /* Ceiling */
+        .tunnel-ceiling {
+            top: 0;
+            left: 50%;
+            width: 225%;
+            height: 100%;
+            transform: translateX(-50%) rotateX(-90deg) translateZ(-40vh);
+            transform-origin: center top;
+        }
+
+        /* Left Wall */
+        .tunnel-left {
+            left: 0;
+            top: -22%;
+            width: 100%;
+            height: 145%;
+            transform: rotateY(90deg) translateZ(-40vw);
+            transform-origin: left center;
+        }
+
+        /* Right Wall */
+        .tunnel-right {
+            right: 0;
+            top: -22%;
+            width: 100%;
+            height: 145%;
+            transform: rotateY(-90deg) translateZ(-40vw);
+            transform-origin: right center;
+        }
+
+        @keyframes tunnel-flow {
+            0% { 
+                background-position: 0 0;
+            }
+            100% { 
+                background-position: 60px 60px;
+            }
+        }
+
+        /* Tunnel Depth Effect */
+        .tunnel-face::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to center,
+                transparent 0%,
+                rgba(0, 0, 0, 0.3) 70%,
+                rgba(0, 0, 0, 0.8) 100%
+            );
+        }
+
+        /* Center Glow Effect */
+        .grid-center-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 400px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, 
+                rgba(0, 255, 136, 0.15) 0%, 
+                rgba(0, 255, 136, 0.05) 40%, 
+                transparent 70%);
+            animation: glow-pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 1;
+            }
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(0, 255, 136, 1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 255, 136, 0.5); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+        }
+
+        .gradient-text {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #acacac;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta {
+            background: var(--accent-gradient);
+            color: var(--bg-primary);
+            padding: 1.25rem 3rem;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 255, 136, 0.5);
+        }
+
+        .primary-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 60px rgba(0, 255, 136, 0.7);
+        }
+
+        .secondary-cta {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1.25rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .secondary-cta::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease;
+        }
+
+        .secondary-cta:hover::before {
+            width: 100%;
+        }
+
+        .secondary-cta:hover {
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        /* Floating Stats */
+        .floating-stats {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .stat-bubble {
+            position: absolute;
+            background: rgba(22, 22, 22, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            animation: float-bubble 20s ease-in-out infinite;
+        }
+
+        @keyframes float-bubble {
+            0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); }
+            25% { transform: translateY(-20px) translateX(10px) rotate(1deg); }
+            50% { transform: translateY(10px) translateX(-5px) rotate(-1deg); }
+            75% { transform: translateY(-10px) translateX(-10px) rotate(0.5deg); }
+        }
+
+        .stat-bubble:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .stat-bubble:nth-child(2) { top: 15%; right: 15%; animation-delay: 2s; }
+        .stat-bubble:nth-child(3) { bottom: 25%; left: 8%; animation-delay: 4s; }
+        .stat-bubble:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 6s; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 8rem 2rem;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            border-radius: 100px;
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-secondary);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--accent-gradient);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Bento Grid Section */
+        .bento {
+            padding: 8rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .bento-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 200px);
+            gap: 1.5rem;
+        }
+
+        .bento-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .bento-item:hover {
+            transform: scale(1.02);
+            border-color: rgba(0, 255, 136, 0.3);
+            z-index: 10;
+        }
+
+        .bento-large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .bento-wide {
+            grid-column: span 2;
+        }
+
+        .bento-tall {
+            grid-row: span 2;
+        }
+
+        .bento-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .bento-label {
+            font-size: 0.875rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .bento-value {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .bento-chart {
+            width: 100%;
+            height: 100px;
+            margin-top: 1rem;
+            position: relative;
+        }
+/* Interactive Demo Section */
+.demo {
+    padding: 8rem 2rem;
+    background: var(--bg-secondary);
+    text-align: center;
+    position: relative;
+}
+
+.demo-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.terminal {
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+.terminal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.03) 100%);
+    pointer-events: none;
+}
+
+.terminal-header {
+    background: var(--bg-card);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff5f56;
+}
+
+.terminal-dot:nth-child(2) { background: #ffbd2e; }
+.terminal-dot:nth-child(3) { background: #27c93f; }
+
+.terminal-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.terminal-body {
+    padding: 2rem;
+    font-family: 'Courier New', monospace;
+    text-align: left;
+    min-height: 400px;
+    max-height: 500px;
+    overflow-y: auto;
+    position: relative;
+}
+
+.terminal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-body::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+}
+
+.terminal-body::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
+}
+
+.terminal-line {
+    margin-bottom: 0.75rem;
+    opacity: 0;
+    animation: type-line 0.5s ease forwards;
+    position: relative;
+}
+
+@keyframes type-line {
+    to { 
+        opacity: 1;
+        transform: translateX(0);
+    }
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+}
+
+.terminal-prompt {
+    color: var(--accent-primary);
+    font-weight: bold;
+}
+
+.terminal-command {
+    color: var(--text-primary);
+}
+
+.terminal-output {
+    color: var(--text-secondary);
+    margin-left: 1.5rem;
+    display: block;
+}
+
+.terminal-success {
+    color: var(--accent-primary);
+}
+
+.terminal-highlight {
+    color: var(--accent-secondary);
+    font-weight: bold;
+}
+
+.terminal-progress {
+    display: inline-block;
+    width: 200px;
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    margin-left: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.terminal-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--accent-gradient);
+    border-radius: 4px;
+    animation: progress-fill 2s ease-out forwards;
+}
+
+@keyframes progress-fill {
+    from { width: 0; }
+}
+
+.terminal-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background: var(--accent-primary);
+    animation: cursor-blink 1s infinite;
+    vertical-align: text-bottom;
+}
+
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* Demo Stats */
+.demo-stats {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 3rem;
+}
+
+.demo-stat {
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.demo-stat.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.demo-stat-value {
+    display: block;
+    font-size: 3rem;
+    font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    transition: all 0.5s ease;
+}
+
+.demo-stat-label {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-transform: uppercase;    letter-spacing: 1px;
+}
+
+        /* Hero Demo Section */
+        .hero-demo {
+            max-width: 800px;
+            margin: 3rem auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-demo .terminal {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            margin-bottom: 2rem;
+        }        .hero-demo .terminal-body {
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+            height: 350px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .hero-demo .demo-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-demo .demo-stat {
+            text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            min-width: 120px;
+        }        .hero-demo .demo-stat-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.25rem;
+            transition: all 0.5s ease;
+        }
+
+        .hero-demo .demo-stat-label {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 8rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .pricing-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 3rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent-primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-gradient);
+            color: var(--bg-primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .pricing-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-period {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .pricing-features li {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+
+        .pricing-cta {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            border: 2px solid var(--border);
+            border-radius: 100px;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured .pricing-cta {
+            background: var(--accent-gradient);
+            border: none;
+            color: var(--bg-primary);
+        }
+
+        .pricing-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 8rem 2rem;
+            background: var(--bg-secondary);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .final-cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .final-cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .final-cta h2 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-primary);
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer-column h4 {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 3rem; }
+            .bento-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .bento-item {
+                grid-column: span 1 !important;
+                grid-row: span 1 !important;
+            }
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .floating-stats { display: none; }
+            .hero-demo .demo-stats {
+                gap: 1rem;
+            }
+            .hero-demo .demo-stat-value {
+                font-size: 1.5rem;
+            }
+            .hero-demo .terminal-body {
+                min-height: 200px;
+                max-height: 250px;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">DROID<span>SPEAK</span></a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#results">Results</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#demo">Demo</a>
+                <a href="#contact" class="nav-cta">Start Automating</a>
+            </div>
+        </div>
+    </nav>    <!-- Hero Section -->
+    <section class="hero">        <div class="hero-bg">
+            <div class="grid-tunnel">
+                <div class="tunnel-face tunnel-floor"></div>
+                <div class="tunnel-face tunnel-ceiling"></div>
+                <!-- <div class="tunnel-face tunnel-left"></div> -->
+                <!-- <div class="tunnel-face tunnel-right"></div> -->
+            </div>
+            <!-- <div class="grid-center-glow"></div> -->
+        </div>
+        <!-- <div class="floating-stats">
+            <div class="stat-bubble">
+                <span class="stat-value">847</span>
+                <span class="stat-label">Hours Saved</span>
+            </div>
+            <div class="stat-bubble">
+                <span class="stat-value">$2.3M</span>
+                <span class="stat-label">Revenue Recovered</span>
+            </div>
+            <div class="stat-bubble">
+                <span class="stat-value">92%</span>
+                <span class="stat-label">Process Automation</span>
+            </div>
+            <div class="stat-bubble">
+                <span class="stat-value">15+</span>
+                <span class="stat-label">Hours/Week Saved</span>
+            </div>
+        </div> -->
+        <div class="hero-content">
+            <div class="hero-tag">🚀 AI AUTOMATION FOR AMBITIOUS SMBS</div>
+            <h1>
+                Turn Your Biggest<br>
+                <span class="gradient-text">Time Wasters</span> Into<br>
+                Competitive Advantages
+            </h1>            
+            <p class="hero-subtitle">
+                Stop doing $25/hour work when you're worth $250/hour. 
+                We automate your repetitive tasks with AI in days, not months.
+            </p>
+            
+            <!-- Interactive Demo -->
+            <div class="hero-demo">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <div class="terminal-dot"></div>
+                        <span class="terminal-title">DroidSpeak AI Terminal</span>
+                    </div>
+                    <div class="terminal-body" id="terminal">
+                        <!-- Terminal content will be dynamically added here -->
+                    </div>
+                </div>
+                <!-- <div class="demo-stats">
+                    <div class="demo-stat" id="tasks-found">
+                        <span class="demo-stat-value">0</span>
+                        <span class="demo-stat-label">Tasks Found</span>
+                    </div>
+                    <div class="demo-stat" id="hours-saved">
+                        <span class="demo-stat-value">0</span>
+                        <span class="demo-stat-label">Hours/Week</span>
+                    </div>
+                    <div class="demo-stat" id="roi-days">
+                        <span class="demo-stat-value">0</span>
+                        <span class="demo-stat-label">Days to ROI</span>
+                    </div>
+                </div> -->
+            </div>
+            
+            <div class="hero-cta-group">
+                <a href="#contact" class="primary-cta">Get Your AI Assessment</a>
+                <!-- <a href="#demo" class="secondary-cta">Watch It Work</a> -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">WHY DROID SPEAK</div>
+            <h2 class="section-title">AI That Actually <span class="gradient-text">Works</span></h2>
+            <p class="section-subtitle">
+                We don't just talk about AI. We implement it, integrate it, and make it profitable.
+            </p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Lightning Fast Setup</h3>
+                <p class="feature-description">
+                    While consultants write reports, we're already automating. 
+                    Full implementation in under 14 days, guaranteed.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔌</div>
+                <h3 class="feature-title">Plug & Play Integration</h3>
+                <p class="feature-description">
+                    Works with your existing tools. No rip-and-replace. 
+                    We connect everything you already use.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3 class="feature-title">ROI or It's Free</h3>
+                <p class="feature-description">
+                    If our automation doesn't pay for itself in 60 days, 
+                    we work for free until it does.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Industry Specific</h3>
+                <p class="feature-description">
+                    Pre-built solutions for legal, healthcare, real estate, and e-commerce. 
+                    No generic nonsense.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3 class="feature-title">Enterprise Security</h3>
+                <p class="feature-description">
+                    SOC 2 compliant. Bank-level encryption. 
+                    Your data stays yours, always.
+                </p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3 class="feature-title">Scales With You</h3>
+                <p class="feature-description">
+                    From 5 to 500 employees, our automations grow with your business. 
+                    No rebuilding required.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Results -->
+    <section class="bento" id="results">
+        <div class="section-header">
+            <div class="section-tag">REAL RESULTS</div>
+            <h2 class="section-title">Numbers That <span class="gradient-text">Matter</span></h2>
+            <p class="section-subtitle">
+                Live data from our clients. Updated in real-time.
+            </p>
+        </div>
+        <div class="bento-grid">
+            <div class="bento-item bento-large">
+                <div class="bento-content">
+                    <div>
+                        <p class="bento-label">Total Hours Saved This Month</p>
+                        <h3 class="bento-value gradient-text">847</h3>
+                    </div>
+                    <div class="bento-chart">
+                        <canvas id="hoursChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-content">
+                    <p class="bento-label">Avg Setup Time</p>
+                    <h3 class="bento-value">11 Days</h3>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-content">
+                    <p class="bento-label">Client Retention</p>
+                    <h3 class="bento-value gradient-text">98%</h3>
+                </div>
+            </div>
+            <div class="bento-item bento-wide">
+                <div class="bento-content">
+                    <p class="bento-label">Revenue Recovered</p>
+                    <h3 class="bento-value">$2.3M</h3>
+                    <p style="color: var(--text-secondary); margin-top: 0.5rem;">From automated billing & collections</p>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-content">
+                    <p class="bento-label">Active Automations</p>
+                    <h3 class="bento-value">1,247</h3>
+                </div>
+            </div>
+            <div class="bento-item">
+                <div class="bento-content">
+                    <p class="bento-label">Tasks Automated</p>
+                    <h3 class="bento-value gradient-text">92%</h3>
+                </div>
+            </div>
+        </div>    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <div class="section-tag">INVESTMENT</div>
+            <h2 class="section-title">Pricing That <span class="gradient-text">Makes Sense</span></h2>
+            <p class="section-subtitle">
+                No hidden fees. No long contracts. Just results.
+            </p>
+        </div>
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="plan-name">Starter</h3>
+                    <div class="plan-price">$500</div>
+                    <p class="plan-period">per month</p>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Up to 5 team members</li>
+                    <li><span class="check-icon">✓</span> 3 automation workflows</li>
+                    <li><span class="check-icon">✓</span> Email support</li>
+                    <li><span class="check-icon">✓</span> Monthly optimization</li>
+                    <li><span class="check-icon">✓</span> Basic integrations</li>
+                </ul>
+                <button class="pricing-cta">Get Started</button>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-header">
+                    <h3 class="plan-name">Professional</h3>
+                    <div class="plan-price">$1,500</div>
+                    <p class="plan-period">per month</p>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Up to 20 team members</li>
+                    <li><span class="check-icon">✓</span> Unlimited workflows</li>
+                    <li><span class="check-icon">✓</span> Priority support</li>
+                    <li><span class="check-icon">✓</span> Weekly optimization</li>
+                    <li><span class="check-icon">✓</span> Custom integrations</li>
+                    <li><span class="check-icon">✓</span> Advanced analytics</li>
+                </ul>
+                <button class="pricing-cta">Get Started</button>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="plan-name">Enterprise</h3>
+                    <div class="plan-price">Custom</div>
+                    <p class="plan-period">Let's talk</p>
+                </div>
+                <ul class="pricing-features">
+                    <li><span class="check-icon">✓</span> Unlimited everything</li>
+                    <li><span class="check-icon">✓</span> White-glove service</li>
+                    <li><span class="check-icon">✓</span> 24/7 phone support</li>
+                    <li><span class="check-icon">✓</span> Daily optimization</li>
+                    <li><span class="check-icon">✓</span> Custom development</li>
+                    <li><span class="check-icon">✓</span> Dedicated success manager</li>
+                </ul>
+                <button class="pricing-cta">Contact Sales</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="contact">
+        <div class="final-cta-content">
+            <h2>Ready to <span class="gradient-text">10x</span> Your Productivity?</h2>
+            <p class="hero-subtitle">
+                Get your custom AI assessment and see exactly how much time and money you'll save.
+            </p>
+            <div class="hero-cta-group">
+                <a href="#" class="primary-cta" onclick="showContactForm()">Get Your AI Assessment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>DROID<span class="gradient-text">SPEAK</span></h3>
+                <p>AI automation that actually works for small business. Turn your biggest time wasters into competitive advantages.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Product</h4>
+                <ul>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#demo">Demo</a></li>
+                    <li><a href="#">API</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy</a></li>
+                    <li><a href="#">Terms</a></li>
+                    <li><a href="#">Security</a></li>
+                    <li><a href="#">Compliance</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Droid Speak Labs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; padding: 2rem;">
+        <div style="max-width: 600px; margin: 5% auto; background: var(--bg-card); border-radius: 24px; padding: 3rem; position: relative;">
+            <button onclick="closeContactForm()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text-secondary); font-size: 2rem; cursor: pointer;">×</button>
+            <h2 style="margin-bottom: 2rem;">Get Your <span class="gradient-text">AI Assessment</span></h2>
+            <form id="assessmentForm">
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Name</label>
+                    <input type="text" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Email</label>
+                    <input type="email" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Company</label>
+                    <input type="text" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Industry</label>
+                    <select required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                        <option value="">Select your industry</option>
+                        <option value="legal">Legal</option>
+                        <option value="healthcare">Healthcare</option>
+                        <option value="realestate">Real Estate</option>
+                        <option value="ecommerce">E-Commerce</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 2rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Biggest Challenge</label>
+                    <textarea required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem; min-height: 100px; resize: vertical;"></textarea>
+                </div>
+                <button type="submit" class="primary-cta" style="width: 100%;">Get My Assessment</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                follower.style.left = e.clientX + 'px';
+                follower.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Feature card mouse effect
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+   // Terminal animation with realistic workflow automation demo
+const terminal = document.getElementById('terminal');
+const tasksFoundEl = document.querySelector('#tasks-found .demo-stat-value');
+const hoursSavedEl = document.querySelector('#hours-saved .demo-stat-value');
+const roiDaysEl = document.querySelector('#roi-days .demo-stat-value');
+
+const terminalSequence = [
+    { 
+        type: 'command',
+        prompt: '$',
+        command: ' droidspeak init --client "Johnson Law Firm"',
+        delay: 1000
+    },
+    {
+        type: 'output',
+        text: '🚀 Initializing DroidSpeak AI Analysis Engine...',
+        delay: 500
+    },
+    {
+        type: 'output',
+        text: '🔐 Establishing secure connection to client systems...',
+        delay: 700
+    },
+    {
+        type: 'output',
+        text: '✅ Connected successfully!',
+        class: 'terminal-success',
+        delay: 400
+    },
+    {
+        type: 'blank',
+        delay: 300
+    },
+    {
+        type: 'command',
+        prompt: '$',
+        command: ' droidspeak analyze --deep-scan',
+        delay: 800
+    },
+    {
+        type: 'output',
+        text: '🔍 Scanning current workflows...',
+        delay: 500
+    },
+    {
+        type: 'progress',
+        text: 'Analyzing emails:',
+        progress: 100,
+        delay: 2000
+    },
+    {
+        type: 'output',
+        text: '📧 Found: <span class="terminal-highlight">2,847 repetitive email responses</span>',
+        updateStat: { element: tasksFoundEl, value: 12 },
+        delay: 400
+    },
+    {
+        type: 'progress',
+        text: 'Analyzing documents:',
+        progress: 100,
+        delay: 1500
+    },
+    {
+        type: 'output',
+        text: '📄 Found: <span class="terminal-highlight">15 document templates</span> used weekly',
+        updateStat: { element: tasksFoundEl, value: 27 },
+        delay: 400
+    },
+    {
+        type: 'progress',
+        text: 'Analyzing billing:',
+        progress: 100,
+        delay: 1800
+    },
+    {
+        type: 'output',
+        text: '💰 Found: <span class="terminal-highlight">$47,000 in unbilled time</span> last quarter',
+        updateStat: { element: tasksFoundEl, value: 41 },
+        delay: 600
+    },
+    {
+        type: 'blank',
+        delay: 500
+    },
+    {
+        type: 'output',
+        text: '📊 Analysis Complete! Here\'s what we found:',
+        class: 'terminal-success',
+        delay: 600
+    },
+    {
+        type: 'output',
+        text: '└─ Total automation opportunities: <span class="terminal-highlight">41 tasks</span>',
+        delay: 400
+    },
+    {
+        type: 'output',
+        text: '└─ Potential time savings: <span class="terminal-highlight">18.5 hours/week</span>',
+        updateStat: { element: hoursSavedEl, value: 18.5 },
+        delay: 400
+    },
+    {
+        type: 'output',
+        text: '└─ Monthly value: <span class="terminal-highlight">$5,550</span>',
+        delay: 400
+    },
+    {
+        type: 'output',
+        text: '└─ ROI timeline: <span class="terminal-highlight">28 days</span>',
+        updateStat: { element: roiDaysEl, value: 28 },
+        delay: 400
+    },
+    {
+        type: 'blank',
+        delay: 700
+    },
+    {
+        type: 'command',
+        prompt: '$',
+        command: ' droidspeak deploy --automation "intelligent-intake"',
+        delay: 1000
+    },
+    {
+        type: 'output',
+        text: '🤖 Deploying AI-powered client intake system...',
+        delay: 600
+    },
+    {
+        type: 'output',
+        text: '🔧 Integrating with Clio, Office 365, and DocuSign...',
+        delay: 800
+    },
+    {
+        type: 'output',
+        text: '🧠 Training AI on your communication patterns...',
+        delay: 1000
+    },
+    {
+        type: 'output',
+        text: '⚡ Automation is now LIVE!',
+        class: 'terminal-success',
+        delay: 600
+    },
+    {
+        type: 'output',
+        text: '📨 New client inquiry received → AI handling response...',
+        delay: 1500
+    },
+    {
+        type: 'output',
+        text: '✅ Client intake completed automatically in 47 seconds!',
+        class: 'terminal-success',
+        delay: 800
+    }
+];
+
+let sequenceIndex = 0;
+let isAnimating = false;
+
+function createTerminalLine(item) {
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    
+    if (item.type === 'command') {
+        line.innerHTML = `<span class="terminal-prompt">${item.prompt}</span><span class="terminal-command">${item.command}</span><span class="terminal-cursor"></span>`;
+    } else if (item.type === 'output') {
+        line.innerHTML = `<span class="terminal-output ${item.class || ''}">${item.text}</span>`;
+    } else if (item.type === 'progress') {
+        line.innerHTML = `
+            <span class="terminal-output">${item.text}</span>
+            <span class="terminal-progress">
+                <span class="terminal-progress-bar" style="animation-duration: ${item.delay}ms; width: ${item.progress}%"></span>
+            </span>
+        `;
+    } else if (item.type === 'blank') {
+        line.innerHTML = '&nbsp;';
+    } 
+    
+    return line;
+}
+
+function animateValue(element, endValue, duration = 1000) {
+    const startValue = parseFloat(element.textContent) || 0;
+    const increment = (endValue - startValue) / (duration / 16);
+    let currentValue = startValue;
+    
+    const timer = setInterval(() => {
+        currentValue += increment;
+        if ((increment > 0 && currentValue >= endValue) || (increment < 0 && currentValue <= endValue)) {
+            currentValue = endValue;
+            clearInterval(timer);
+        }
+        element.textContent = currentValue % 1 === 0 ? currentValue : currentValue.toFixed(1);
+    }, 16);
+}
+
+function runTerminalSequence() {
+    if (sequenceIndex >= terminalSequence.length) {
+        // Reset and loop
+        setTimeout(() => {
+            terminal.innerHTML = '';
+            sequenceIndex = 0;
+            if (tasksFoundEl) tasksFoundEl.textContent = '0';
+            if (hoursSavedEl) hoursSavedEl.textContent = '0';
+            if (roiDaysEl) roiDaysEl.textContent = '0';
+            document.querySelectorAll('.demo-stat').forEach(stat => stat.classList.remove('active'));
+            runTerminalSequence();
+        }, 3000);
+        return;
+    }
+    
+    const item = terminalSequence[sequenceIndex];
+    const line = createTerminalLine(item);
+    
+    // Remove cursor from previous line
+    const previousCursor = terminal.querySelector('.terminal-cursor');
+    if (previousCursor) {
+        previousCursor.remove();
+    }
+    
+    terminal.appendChild(line);
+    
+    // Auto-scroll to bottom
+    terminal.scrollTop = terminal.scrollHeight;
+      // Update stats if needed
+    if (item.updateStat && item.updateStat.element) {
+        setTimeout(() => {
+            item.updateStat.element.parentElement.classList.add('active');
+            animateValue(item.updateStat.element, item.updateStat.value);
+        }, 300);
+    }
+    
+    sequenceIndex++;
+    setTimeout(runTerminalSequence, item.delay);
+}
+
+// Start animation when hero demo section is in view
+const demoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !isAnimating) {
+            isAnimating = true;
+            runTerminalSequence();
+            demoObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.3 });
+
+demoObserver.observe(document.querySelector('.hero-demo'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Contact form
+        function showContactForm() {
+            document.getElementById('contactModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeContactForm() {
+            document.getElementById('contactModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('assessmentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you! We\'ll send your custom AI assessment within 24 hours.');
+            closeContactForm();
+        });
+
+        // Draw chart
+        const canvas = document.getElementById('hoursChart');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Simple line chart
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            const points = [20, 35, 40, 55, 60, 75, 85, 95];
+            const spacing = canvas.width / (points.length - 1);
+            
+            points.forEach((point, index) => {
+                const x = index * spacing;
+                const y = canvas.height - (point / 100 * canvas.height);
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+        }
+    </script>
+</body>
+</html>
