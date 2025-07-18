@@ -8,7 +8,7 @@
 
 ## Headline
 
-Stop Drowning in Busy Work. Start Growing Your Business.
+Stop Being the Bottleneck. Start Growing Your Business.
 
 ## Subheadline
 
