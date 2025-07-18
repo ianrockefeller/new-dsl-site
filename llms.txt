@@ -1,0 +1,23 @@
+# Droid Speak Labs - Digital Systems that Scale Your Business Without the Headaches
+
+> Droid Speak builds smart, automated digital systems for businesses including websites, CRMs, marketing automation, and customer engagement tools so business owners can stop being the bottleneck and start scaling efficiently.
+
+## Products and Services
+- Website development
+- eCommerce development
+- CRM hosting and development
+- Digital marketing
+- Marketing automation
+- Digital presence consulting
+
+## Core Pages
+- [Home Page](https://droidspeaklabs.com): Landing page, overview of products, services, pain points, and value proposition.
+
+## Information
+- [Blog](https://droidspeaklabs.com/blog): Blog providing authoritative content on internet technology, digital marketing, and AI for non-technical professionals looking to leverage the latest in tech. 
+- [Case Studies](https://droidspeaklabs.com/case-studies): Check out our deepdives showcasing the ways that we have helped our customers save thousands of dollars, countless hours, and endless headaches. 
+
+## Contact
+- Phone: (215) 380-6355
+- Email: hello@droidspeaklabs.com
+- [Free Business Assessment](https://calendly.com/droidspeaklabs/30min): Offer for a free audit with process improvement recommendations.

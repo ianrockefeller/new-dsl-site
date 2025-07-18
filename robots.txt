@@ -1,0 +1,16 @@
+# Allow Google AI
+User-Agent: Google-Extended
+Allow: /
+
+# Allow OpenAI
+User-Agent: GPTBot
+Allow: /
+
+# Allow Common Crawl (used by many LLMs)
+User-Agent: CCBot
+Allow: /
+
+# Allow Anthropic's Claude AI
+User-Agent: ClaudeBot
+Allow: /
+
