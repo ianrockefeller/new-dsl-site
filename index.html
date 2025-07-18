@@ -70,29 +70,29 @@
                 Every hour you spend on busy work is money left on the table.
             </p>
         </div>
-        <div class="features-grid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
-            <div class="feature-card" style="height: 260px; display: flex; flex-direction: column; justify-content: flex-start;">
+        <div class="features-flex">
+            <div class="feature-card">
                 <div class="feature-icon">📱</div>
                 <h3 class="feature-title">Social Media Time Sink</h3>
                 <p class="feature-description">
                     <strong>Spending 15+ hours weekly</strong> on social media instead of serving customers
                 </p>
             </div>
-            <div class="feature-card" style="height: 260px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">⚡</div>
                 <h3 class="feature-title">Missed Leads</h3>
                 <p class="feature-description">
                     <strong>Missing leads</strong> because you can't respond fast enough
                 </p>
             </div>
-            <div class="feature-card" style="height: 260px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">📅</div>
                 <h3 class="feature-title">Manual Booking</h3>
                 <p class="feature-description">
                     <strong>Manually booking appointments</strong> while competitors capture clients around the clock
                 </p>
             </div>
-            <div class="feature-card" style="height: 260px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">💰</div>
                 <h3 class="feature-title">Hiring Headaches</h3>
                 <p class="feature-description">
@@ -181,29 +181,29 @@
                 Complete digital infrastructure without the massive overhead, long-term contracts, or technical headaches.
             </p>
         </div>
-        <div class="features-grid" style="display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
-            <div class="feature-card" style="height: 340px; display: flex; flex-direction: column; justify-content: flex-start;">
+        <div class="features-flex">
+            <div class="feature-card">
                 <div class="feature-icon">🧱</div>
                 <h3 class="feature-title">Digital Foundation</h3>
                 <p class="feature-description">
                     Your website is your digital storefront. We build sites that turn visitors into paying customers with smart forms, clear calls-to-action, and mobile optimization. Includes SEO and local search optimization so people actually find you.
                 </p>
             </div>
-            <div class="feature-card" style="height: 340px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">🗃️</div>
                 <h3 class="feature-title">Customer Management</h3>
                 <p class="feature-description">
                     Stop losing leads in spreadsheets. Our custom systems organize contacts, track interactions, and remind you when to follow up or do it for you. Includes chatbots that qualify leads and CRM setup that actually gets used. 
                 </p>
             </div>
-            <div class="feature-card" style="height: 340px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">🧠</div>
                 <h3 class="feature-title">Marketing Automation</h3>
                 <p class="feature-description">
                     Content creation and scheduling across all platforms. Email sequences that nurture leads automatically. Text campaigns that get read. Social media that runs itself while you focus on your business.
                 </p>
             </div>
-            <div class="feature-card" style="height: 340px; display: flex; flex-direction: column; justify-content: flex-start;">
+            <div class="feature-card">
                 <div class="feature-icon">🛠️</div>
                 <h3 class="feature-title">Business Operations</h3>
                 <p class="feature-description">
@@ -273,29 +273,29 @@
     </footer>
 
     <!-- Contact Modal -->
-    <div id="contactModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; padding: 2rem;">
-        <div style="max-width: 600px; margin: 5% auto; background: var(--bg-card); border-radius: 24px; padding: 3rem; position: relative;">
-            <button onclick="closeContactForm()" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--text-secondary); font-size: 2rem; cursor: pointer;">×</button>
+    <div id="contactModal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button onclick="closeContactForm()" class="close-contact-btn">×</button>
             <h2 style="margin-bottom: 2rem;">Get Your <span class="gradient-text">Free Assessment</span></h2>
             <p style="color: var(--text-secondary); margin-bottom: 2rem; line-height: 1.5;">
                 We'll audit your current processes and show you exactly where you're losing time and money. No sales pitch, just honest feedback.
             </p>
             <form id="assessmentForm">
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Name</label>
-                    <input type="text" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                <div class="assessment-form-group">
+                    <label class="assessment-form-label">Name</label>
+                    <input type="text" required class="assessment-form-input">
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Email</label>
-                    <input type="email" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                <div class="assessment-form-group">
+                    <label class="assessment-form-label">Email</label>
+                    <input type="email" required class="assessment-form-input">
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Phone</label>
-                    <input type="tel" required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                <div class="assessment-form-group">
+                    <label class="assessment-form-label">Phone</label>
+                    <input type="tel" required class="assessment-form-input">
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">Business Type</label>
-                    <select required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem;">
+                <div class="assessment-form-group">
+                    <label class="assessment-form-label">Business Type</label>
+                    <select required class="assessment-form-select">
                         <option value="">Select your business type</option>
                         <option value="service">Service Business</option>
                         <option value="retail">Retail/E-commerce</option>
@@ -305,11 +305,11 @@
                         <option value="other">Other</option>
                     </select>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <label style="display: block; margin-bottom: 0.5rem; color: var(--text-secondary);">What's your biggest time waster?</label>
-                    <textarea required style="width: 100%; padding: 1rem; background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; color: var(--text-primary); font-size: 1rem; min-height: 100px; resize: vertical;" placeholder="Social media, appointment booking, follow-ups, etc."></textarea>
+                <div class="assessment-form-group">
+                    <label class="assessment-form-label">What's your biggest time waster?</label>
+                    <textarea required class="assessment-form-textarea" placeholder="Social media, appointment booking, follow-ups, etc."></textarea>
                 </div>
-                <button type="submit" class="primary-cta" style="width: 100%;">Book My Free Assessment</button>
+                <button type="submit" class="primary-cta">Book My Free Assessment</button>
             </form>
         </div>
     </div>
